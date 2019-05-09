@@ -59,7 +59,7 @@ def read_ws(ws, client):
     Adding a route to the websockets server
     to "subscribe" clients
     '''
-@sockets.route('/echo')
+@sockets.route('/subscribe')
 def subscribe_socket(ws):
     client = Client() # User-defined object to store client info
     clients.append(client)

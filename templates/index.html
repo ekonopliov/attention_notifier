@@ -7,7 +7,7 @@
         <script type="text/javascript" >
             var webSocket;
             
-            webSocket = new WebSocket('ws://'+window.location.hostname + ':80/subscribe');
+            webSocket = new WebSocket('ws://'+window.location.hostname + ': process.env.PORT/subscribe');
             
             webSocket.onmessage = function(event) { onMessage(event); }
             
