@@ -4,14 +4,22 @@
             background-color: #ffb3ff;
         }
     
-        input {border-radius: 10px;}
+        input {
+            border-radius: 10px;
+        }
+    
+        input:hover {
+            border-radius: 10px !important;
+            background: #ff99ff !important;
+            color: white !important;
+        }
     </style>
     <body>
         <div align="center">
             <input type="button" id="btnMain" onclick="test(this);" value="Push, when you need my attention"
             style="width:95%;
             height:200px;
-            border: 4px solid #800080;
+            border: 4px solid #800080 !important;
             background-color: #ffccff;
             font-size:60px;
             font-family:cursive;
