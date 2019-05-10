@@ -46,7 +46,7 @@
         <script type="text/javascript" >
             var webSocket;
             
-            webSocket = new WebSocket('ws://'+window.location.hostname + ':80/subscribe');
+            webSocket = new WebSocket('wss://'+window.location.hostname + ':80/subscribe');
             
             webSocket.onmessage = function(event) { onMessage(event); }
             
