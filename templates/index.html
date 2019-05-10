@@ -46,12 +46,12 @@
         <script type="text/javascript" >
             var webSocket;
             
-            webSocket = new WebSocket('ws://'+window.location.hostname + ':80/subscribe');
+            webSocket = new WebSocket('ws://'+window.location.hostname + ':8000/subscribe');
             
             webSocket.onmessage = function(event) { onMessage(event); }
             
             function test(btn){
-            webSocket.send("1");
+            webSocket.send(JSON.stringify("1"));
             disableButton(btn);
             }
             
