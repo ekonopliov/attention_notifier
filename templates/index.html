@@ -12,7 +12,7 @@
     </style>
     <body>
         <div align="center">
-            <input type="button" id="btnMain" onclick="test(this);" value="Push, when you need my attention"
+            <input type="button" id="btnMain" onclick="test();" value="Push, when you need my attention"
             style="width:95%;
             height:200px;
             border: 4px solid #800080;
@@ -48,11 +48,14 @@
             
             webSocket = new WebSocket('ws://'+window.location.hostname + ':80/subscribe');
             
-            webSocket.onmessage = function(event) { onMessage(event); }
+            webSocket.onmessage = function(event) {
+                alert("Attention notification has been received!");
+                disableButton(btnMain);
+            }
             
-            function test(btn){
-            webSocket.send(JSON.stringify("1"));
-            disableButton(btn);
+            function test(){
+            webSocket.send(JSON.stringify(1));
+            alert("Wait for the answer...");
             }
             
             function onMessage(event){
@@ -61,8 +64,7 @@
         
             function disableButton(btn){
             document.getElementById(btn.id).disabled = true;
-            alert("Attention notification has been sent!");
-            setTimeout(function(){document.getElementById(btn.id).disabled = false;},1000); //12s delay
+            setTimeout(function(){document.getElementById(btn.id).disabled = false;},10000);
             }
         
             </script>
