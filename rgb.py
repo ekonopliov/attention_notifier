@@ -38,18 +38,12 @@ class Client:
     User-defined function for sending data on the
     websocket to all clients
     '''
-def send_all_json(msg):
+def send_all(msg):
     for client in clients:
-        client.put(json.dumps(msg))
+        client.put(msg)
 '''
     Helper function for testing the validity of json format
     '''
-def is_json(text):
-    try:
-        json.loads(text)
-    except ValueError, e:
-        return False
-    return True
 
 '''
     Greenlet function to read from websocket
@@ -62,10 +56,8 @@ def read_ws(ws, client):
             print "WS RECEIVED: %s" % msg
             if(msg is None):
                 client.put(msg)
-            elif (is_json(msg)):
-                send_all_json(json.loads(msg)) # Assuming the data is properly formatted :)
             else:
-                raise ValueError('Not a JSON string')
+                send_all(msg) # Assuming the data is properly formatted :)
         except:
             print "WS ERROR: read_ws exception"
 
