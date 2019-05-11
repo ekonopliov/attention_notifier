@@ -6,27 +6,24 @@ import json
 
 '''
     Setting up the webserver
-    '''
+'''
 app = Flask(__name__)
 app.debug = True
 
 '''
-    Setting up the websockets
-    '''
+    Setting up the websocket
+'''
 sockets = Sockets(app)
 
 '''
-    Handling multiple clients
-    '''
+    Multiple clients handling
+'''
 clients = list()
 
 '''
-    Store red, green, blue color data globally
-    '''
-
+Client object
 '''
-    User-defined class for clients
-    '''
+
 class Client:
     def __init__(self):
         self.queue = gevent.queue.Queue()
@@ -35,46 +32,44 @@ class Client:
     def get(self):
         return self.queue.get()
 '''
-    User-defined function for sending data on the
-    websocket to all clients
-    '''
+User-defined function for sending data on the websocket to all clients
+'''
+
 def send_all(msg):
     for client in clients:
         client.put(msg)
-'''
-    Helper function for testing the validity of json format
-    '''
 
 '''
-    Greenlet function to read from websocket
-    '''
+   Reading from websocket
+'''
+
 def read_ws(ws, client):
     while not ws.closed:
         gevent.sleep(0)
         try:
-            msg = ws.receive() # This command blocks!
+            msg = ws.receive()
             print "WS RECEIVED: %s" % msg
             if(msg is None):
                 client.put(msg)
             else:
-                send_all(msg) # Assuming the data is properly formatted :)
+                send_all(msg)
         except:
             print "WS ERROR: read_ws exception"
 
 '''
     Adding a route to the websockets server
     to "subscribe" clients
-    '''
+'''
 @sockets.route('/subscribe')
 def subscribe_socket(ws):
-    client = Client() # User-defined object to store client info
+    client = Client()
     clients.append(client)
     print '# Clients: {}'.format(len(clients))
     g = gevent.spawn( read_ws, ws, client)
     # If data is received by the queue, send it to the websocket
     try:
         while g:
-            msg = client.get() # This command blocks!
+            msg = client.get()
             if msg is not None:
                 ws.send(msg)
             else:
@@ -88,7 +83,7 @@ def subscribe_socket(ws):
 
 '''
     Adding a route to the webserver
-    '''
+'''
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html") # rendering index.html in 'templates' dir

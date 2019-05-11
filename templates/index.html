@@ -46,7 +46,7 @@
         <script type="text/javascript" >
             var webSocket;
             
-            webSocket = new WebSocket('ws://'+window.location.hostname + ':80/subscribe');
+            webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
             
             webSocket.onmessage = function(event) {
                 if(event.data == "done"){
@@ -66,8 +66,8 @@
         
             function disableButton(){
             document.getElementById("btnMain").disabled = true;
-            setTimeout(function(){document.getElementById("btnMain").disabled = false;},10000);
-            }
+            setTimeout(function(){document.getElementById("btnMain").disabled = false;},7000);
+            } //7 sec delay
         
             </script>
 </body>
