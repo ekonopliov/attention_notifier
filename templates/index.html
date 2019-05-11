@@ -49,8 +49,10 @@
             webSocket = new WebSocket('ws://'+window.location.hostname + ':80/subscribe');
             
             webSocket.onmessage = function(event) {
+                if(event.data == "done"){
                 alert("Attention notification has been received!");
                 disableButton(btnMain);
+                }
             }
             
             function test(){
