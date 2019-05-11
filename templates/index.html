@@ -51,7 +51,7 @@
             webSocket.onmessage = function(event) {
                 if(event.data == "done"){
                 alert("Attention notification has been received!");
-                disableButton(btnMain);
+                disableButton();
                 }
             }
             
@@ -64,11 +64,11 @@
             console.log(event.data);
             }
         
-            function disableButton(btn){
-            document.getElementById(btn.id).disabled = true;
-            document.getElementById(btn.id).value = "Wait a little!";
-            setTimeout(function(){document.getElementById(btn.id).disabled = false;},10000);
-            document.getElementById(btn.id).value = "Push, when you need my attention";
+            function disableButton(){
+            document.getElementById(btnMain.id).disabled = true;
+            document.getElementById(btnMain.id).value = "Wait a little!";
+            setTimeout(function(){document.getElementById(btnMain.id).disabled = false;},10000);
+            document.getElementById(btnMain.id).value = "Push, when you need my attention";
             }
         
             </script>
