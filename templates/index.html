@@ -10,9 +10,9 @@
             color: white !important ;
         }
     </style>
-    <body onload="connect();">
+    <body>
         <div align="center">
-            <input type="button" id="btnMain" onclick="test();" value="Push, when you need my attention"
+            <input type="button" id="btnMain" onclick="sendData();" value="Push, when you need my attention"
             style="width:95%;
             height:200px;
             border: 4px solid #800080;
@@ -45,34 +45,27 @@
         
         <script type="text/javascript" >
             var webSocket;
-            connect();
-            function connect(){
-                webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
-            }
-        webSocket.onopen = webSocket.onclose = function(e){
-            console.log('WebSocketConnected');
-        }
-        
-                        webSocket.onerror = function(err) {
-                        console.error('Socket encountered error: ', err.message, 'Closing socket');
-                        webSocket.close();
-                        };
-        
-                        webSocket.onclose = function(e) {setTimeout(function() {
-                       connect();
-                       }, 500);
-            };
+            webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
+            
+            
+            webSocket.onopen = tryToConnect();
             
             webSocket.onmessage = function(event) {
                 if(event.data == "done"){
                 alert("Attention notification has been received!");
                 disableButton();
                 }
+                if(event.data == "connected"){
+                alert("You are connected");
+                }
             }
-            
-            function test(){
+        
+            function tryToConnect(){
+            setTimeout(function(){webSocket.send(3);},50);
+            }
+        
+            function sendData(){
             webSocket.send(1);
-            alert("Wait for the answer...");
             }
             
             function onMessage(event){

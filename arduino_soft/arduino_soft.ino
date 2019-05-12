@@ -50,10 +50,16 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
       break;
     case WStype_TEXT:
       if((char)payload[0] == '1'){
-      Serial.printf("[WSc] Received text: %s\n", payload);
+      Serial.printf("Received button push!");
       webSocket.sendTXT("done");
       blinkTheLed();
       }
+      if((char)payload[0] == '3'){
+      Serial.printf("Received connection!");
+      webSocket.sendTXT("connected");
+      blinkTheLed();
+      }
+            
       break;
   }
 }
