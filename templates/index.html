@@ -50,12 +50,13 @@
                 webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
             }
                         webSocket.onerror = function(err) {
+                        console.error('Socket encountered error: ', err.message, 'Closing socket');
                         webSocket.close();
-        };
+                        };
                         webSocket.onclose = function(e) {setTimeout(function() {
                        connect();
                        }, 500);
-        };
+            };
             
             webSocket.onmessage = function(event) {
                 if(event.data == "done"){
@@ -74,8 +75,9 @@
             }
         
             function disableButton(){
+            
             document.getElementById("btnMain").disabled = true;
-            setTimeout(function(){document.getElementById("btnMain").disabled = false;},7000);
+         setTimeout(function(){document.getElementById("btnMain").disabled = false;},7000);
             } //7 sec delay
         
             </script>
