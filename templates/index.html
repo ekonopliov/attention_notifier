@@ -45,8 +45,19 @@
         
         <script type="text/javascript" >
             var webSocket;
-            
-            webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
+            connect();
+            function connect(){
+                webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
+            }
+        
+                        webSocket.onopen = refreshStatus();
+                        webSocket.onerror = function(err) {
+                        webSocket.close();
+        };
+                        webSocket.onclose = function(e) {setTimeout(function() {
+                       connect();
+                       }, 500);
+        };
             
             webSocket.onmessage = function(event) {
                 if(event.data == "done"){
