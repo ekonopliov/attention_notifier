@@ -49,10 +49,15 @@
             function connect(){
                 webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
             }
+        webSocket.onopen = webSocket.onclose = function(e){
+            console.log('WebSocketConnected');
+        }
+        
                         webSocket.onerror = function(err) {
                         console.error('Socket encountered error: ', err.message, 'Closing socket');
                         webSocket.close();
                         };
+        
                         webSocket.onclose = function(e) {setTimeout(function() {
                        connect();
                        }, 500);
