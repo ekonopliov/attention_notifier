@@ -10,7 +10,7 @@
             color: white !important ;
         }
     </style>
-    <body>
+    <body onload="connect();">
         <div align="center">
             <input type="button" id="btnMain" onclick="test();" value="Push, when you need my attention"
             style="width:95%;
@@ -49,8 +49,6 @@
             function connect(){
                 webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
             }
-        
-                        webSocket.onopen = refreshStatus();
                         webSocket.onerror = function(err) {
                         webSocket.close();
         };
