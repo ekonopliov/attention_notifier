@@ -30,7 +30,7 @@ void setup() {
 
   webSocket.begin("attentionnotifier999.herokuapp.com", 80, "/subscribe");
   webSocket.onEvent(webSocketEvent);
-  webSocket.setReconnectInterval(300); 
+  webSocket.setReconnectInterval(50); 
 }
 
 void loop() {
