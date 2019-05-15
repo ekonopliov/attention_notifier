@@ -23,7 +23,7 @@
             Waiting for connection...
         </div>
         <div align="center">
-            <input type="button" id="btnMain" onclick="sendData();reloadpage();" value="Push, when you need my attention" disabled="true"
+            <input type="button" id="btnMain" onclick="sendData();" value="Push, when you need my attention" disabled="true"
             style="width:90%;
             height:200px;
             border: 4px solid #800080;
@@ -74,6 +74,7 @@
         
             function sendData(){
             webSocket.send(1);
+            reloadpage();
             }
             
             function onMessage(event){
@@ -81,7 +82,7 @@
             }
         
             function reloadpage(){
-            window.location.reload(false);
+            location.reload();
             }
         
             function disableButton(){
