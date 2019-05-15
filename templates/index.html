@@ -52,7 +52,7 @@
         
         <script type="text/javascript" >
             var webSocket;
-            var
+            var connected = false;
             webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
             
             
@@ -64,6 +64,7 @@
                 disableButton();
                 }
                 if(event.data == "connected"){
+                    connected = true;
                     document.getElementById("btnMain").disabled = false;
                     document.getElementById("connectedtxt").innerHTML = "Connected!"
                 }
@@ -72,7 +73,7 @@
             function tryToConnect(){
             setTimeout(function(){webSocket.send(3);},1000);
             setTimeout(function(){
-                       if(!connected){
+                       if(connected == false){
                        reloadpage();
                        }
                        },500);
