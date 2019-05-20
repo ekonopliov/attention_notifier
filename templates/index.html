@@ -11,6 +11,7 @@
         }
     </style>
     <body>
+        <!–– Waiting for connection label. Centered horizontally and vertically ––>
         <div id="connectedtxt" align="center"
             style="
             font-size: 40px;
@@ -22,6 +23,8 @@
             margin-bottom:20px;">
             Waiting for connection...
         </div>
+        
+        <!–– Main and the only button. Nicely styled ––>
         <div align="center">
             <input type="button" id="btnMain" onclick="sendData();" value="Push, when you need my attention" disabled="true"
             style="width:90%;
@@ -35,6 +38,7 @@
             "/>
             </div>
         
+        <!–– Additional label ––>
         <div align="center"
             style="
             font-size: 45px;
@@ -42,6 +46,8 @@
             margin-top: 40px">
             Created for my beautiful Pati &#128156;
         </div>
+        
+        <!–– Additional label ––>
         <div align="center"
             style="
             font-size: 34px;
@@ -51,25 +57,33 @@
         
         
         <script type="text/javascript" >
-            var webSocket;
+            //declaring a webSocket
+            var webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
+            
+            //variable for checking if user is connected
             var connected = false;
-            webSocket = new WebSocket('ws://'+ window.location.hostname + ':80/subscribe');
             
-            
+            //function to perform when WebSocket opens
             webSocket.onopen = tryToConnect();
             
+            //function to perform when WebSocket gets a message
             webSocket.onmessage = function(event) {
+                
+                //"done" is sent by Arduino when button push notification ("1") is received by Arduino
                 if(event.data == "done"){
                 alert("Attention notification has been received!");
                 disableButton();
                 }
+                
+                //"connected" is sent by Arduino when it receives "3" (is sent on WebSocket opening stage)
                 if(event.data == "connected"){
                     connected = true;
-                    document.getElementById("btnMain").disabled = false;
-                    document.getElementById("connectedtxt").innerHTML = "Connected!"
+                    document.getElementById("btnMain").disabled = false;   //enabling a button
+                    document.getElementById("connectedtxt").innerHTML = "Connected!" //changing "Waiting for connection" label text (id="connectedtxt") to "Connected!"
                 }
             }
         
+            //function performed on WebSocket opening stage. Waits 1 second before sending a message "3", which must be received by Arduino, and answered by it. Then, waits for an aswer for extra 2 seconds. If var connected is still false - reloads a page;
             function tryToConnect(){
             setTimeout(function(){webSocket.send(3);},1000);
             setTimeout(function(){
@@ -79,20 +93,18 @@
                        },3000);
             }
         
+            //function sends "1" to WebSocket. Called when btnMain is pushed.
             function sendData(){
             webSocket.send(1);
             }
-            
-            function onMessage(event){
-            console.log(event.data);
-            }
         
+            //function reloads the page in a browser. Called by function tryToConnect if variable connected is not true
             function reloadpage(){
             location.reload();
             }
         
+            //function disables btnMain for 7 seconds. Called by webSocket.onmessage when it receives string "done", which means that notification has been received
             function disableButton(){
-            
             document.getElementById("btnMain").disabled = true;
          setTimeout(function(){document.getElementById("btnMain").disabled = false;},7000);
             } //7 sec delay

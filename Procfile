@@ -1,1 +1,1 @@
-web: gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker rgb:app
+web: gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker notifier:app

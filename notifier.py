@@ -5,18 +5,18 @@ import time
 import json
 
 '''
-    Setting up the webserver
+Setting up the webserver
 '''
 app = Flask(__name__)
 app.debug = True
 
 '''
-    Setting up the websocket
+Setting up the websocket
 '''
 sockets = Sockets(app)
 
 '''
-    Multiple clients handling
+Multiple clients handling
 '''
 clients = list()
 
@@ -40,7 +40,7 @@ def send_all(msg):
         client.put(msg)
 
 '''
-   Reading from websocket
+Reading from websocket
 '''
 
 def read_ws(ws, client):
@@ -57,8 +57,7 @@ def read_ws(ws, client):
             print "WS ERROR: read_ws exception"
 
 '''
-    Adding a route to the websockets server
-    to "subscribe" clients
+Adding a route to the websockets server to "subscribe" clients
 '''
 @sockets.route('/subscribe')
 def subscribe_socket(ws):
@@ -82,7 +81,7 @@ def subscribe_socket(ws):
         gevent.kill(g)
 
 '''
-    Adding a route to the webserver
+Adding a route to the webserver
 '''
 @app.route('/')
 def index():
