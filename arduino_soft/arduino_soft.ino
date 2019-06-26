@@ -2,14 +2,13 @@
 #include <WebSocketsClient.h>
 #include <Servo.h>
 
+//Declaring servo
 Servo servo;
 
 // Connecting to the internet
-char * ssid = "Ernest";
-char * password = "abcd1234";
+char * ssid = "Your wifi SSID";
+char * password = "Your wifi password";
 int servo_position = 0;
-
-// Controlling the WS2812B
 
 // Setting up the websocket client
 WebSocketsClient webSocket;
@@ -18,9 +17,8 @@ void setup() {
 
   pinMode(BUILTIN_LED, OUTPUT);
   servo.attach(D6);
-  // put your setup code here, to run once:
   Serial.begin(115200);
- // WiFi.mode(WIFI_STA);
+  // WiFi.mode(WIFI_STA);  //use this option, if you are connecting to personal hotspot
   WiFi.begin(ssid, password);
   Serial.println("");
   while(WiFi.status()!=WL_CONNECTED) {
@@ -29,16 +27,15 @@ void setup() {
   }
   blinkTheLed(2);
   servo.write(servo_position);
- // servo.attach(D7);
   
   Serial.println("");
   Serial.println("Connected to WiFi.");
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
   
-// webSocket.begin("172.20.10.12", 8000, "/subscribe");
+// webSocket.begin("172.20.10.12", 8000, "/subscribe");  //webSocket for local testing
 
-  webSocket.begin("attentionnotifier999.herokuapp.com", 80, "/subscribe");
+  webSocket.begin("Your Heroku cloud app name.herokuapp.com", 80, "/subscribe");
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(10);
   
@@ -66,7 +63,6 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
       else if((char)payload[0] == '3'){
       Serial.println("New connection!");
       webSocket.sendTXT("connected");
-    //  blinkTheLed(6);
       }
             
       break;
@@ -82,9 +78,9 @@ void blinkTheLed(int howManyTimes){
     }
   }
 
+//Method that is called when notification arrives
 void notify(){
-    
-     int a = 320;
+     int a = 320;  //blinking start interval
   
      for(int i = 0; i < 15; i++){
        digitalWrite(BUILTIN_LED, HIGH);
@@ -101,26 +97,21 @@ void notify(){
        digitalWrite(BUILTIN_LED, LOW);
   }
 
+  //Method that is used to simulate heart waving with servo
   void wave(int howManyTimes){
-   // servo.attach(D6);
    servo.attach(D6);
 
  for(int i = 0; i < howManyTimes; i++){
- 
-
   for (servo_position = 0; servo_position <=165; servo_position +=1){
- 
     servo.write(servo_position);
     delay(3);
 
   }
+  
   for (servo_position=165; servo_position >= 0; servo_position -=1){
-
     servo.write(servo_position);
     delay(3);
-    
      }   
     }
-    servo.detach();
-   //servo.attach(D7);
+    servo.detach();  //important to use this line. Otherwise servo motor will make noise after certain time.
   }
